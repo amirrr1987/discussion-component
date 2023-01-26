@@ -1,6 +1,8 @@
 <template>
-  <div class="grid gap-12">
-   <TheDiscussion :discussions="discussions" />
+  <div class="container mx-auto px-4">
+    <div class="grid gap-12">
+      <TheDiscussion :discussions="discussions" />
+    </div>
   </div>
 </template>
 
