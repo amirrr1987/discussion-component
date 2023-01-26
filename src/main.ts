@@ -3,8 +3,10 @@ import { createPinia } from 'pinia'
 
 import App from './App.vue'
 import router from './router'
-
-import './assets/main.css'
+// main.ts
+import 'uno.css'
+import '@unocss/reset/tailwind.css'
+import 'virtual:unocss-devtools'
 
 const app = createApp(App)
 
