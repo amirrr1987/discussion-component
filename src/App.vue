@@ -1,11 +1,6 @@
 <template>
   <div class="grid gap-12">
-    <template v-for="(item, index) in discussions" :key="index">
-      <div class="grid">
-        <img :src="item.user.avatar ?? item.user.name" alt="">
-        <div class="">{{ item.user.name }}</div>
-      </div>
-    </template>
+   <TheDiscussion :discussions="discussions" />
   </div>
 </template>
 
