@@ -4,37 +4,59 @@
 
         <div class="flex flex-col gap-y-4 items-center">
             <img class="w-10 h-10 rounded-full" v-if="discussion.user.avatar" :src="discussion.user.avatar" alt="" />
-            <span class="flex-1 bg-[#EEF2F5] w-1"></span>
+            <span class="flex-1 bg-[#EEF2F5] w-2.5px"></span>
         </div>
 
         <div class="">
-            <div class="flex gap-x-1">
+            <div class="flex gap-x-2 items-center">
                 <span class="text-[#282A2F] font-medium">{{ discussion.user.name }}</span>
-                <span class="text-[#A3ABC1]">{{ discussion.date }}</span>
+                <span class="text-[#A3ABC1] text-sm">{{ getDateDusration({ timeStamp: discussion.date }) }}</span>
             </div>
-            <div class="">
+            <div class="text-[#5E6770] text-sm leading-6 font-normal mb-2">
                 {{ discussion.text }}
             </div>
             <div class="flex gap-x-2">
-                <button class="bg-[#F4F5FA] w-24 h-10 rounded-full" :class="discussion.iLikedIt ? 'bg-[#235EE7] text-white' : ''">
+
+                <BaseBtn :likeIt="discussion.iLikedIt">
+                    <IconLike class="block" />
                     {{ discussion.likes }}
-                </button>
-                <button class="text-[#235EE7] font-medium w-24 h-10 rounded-full">
-                    Replay
-                </button>
+                </BaseBtn>
+
+                <BaseBtn>
+                    replay
+                </BaseBtn>
             </div>
-            <!-- <div class="">{{ discussion.likes }}</div>
-            <div class="">{{ discussion.iLikedIt }}</div> -->
             <div class="">
                 <template v-for="single in discussion.replies">
-                    <div> {{ single.id }} </div>
+                    <div class="flex gap-x-2 items-center">
+                        <span class="text-[#282A2F] font-medium">{{ single.user.name }}</span>
+                        <span class="text-[#A3ABC1] text-sm">
+                            {{ getDateDusration({ timeStamp: single.date })}}
+                        </span>
+                    </div>
+                    <div class="text-[#5E6770] text-sm leading-6 font-normal mb-2">
+                        {{ single.text }}
+                    </div>
+                    <div class="flex gap-x-2">
+                        <BaseBtn :likeIt="single.iLikedIt">
+                            <IconLike class="block" />
+                            {{ single.likes }}
+                        </BaseBtn>
+
+                        <BaseBtn>
+                            replay
+                        </BaseBtn>
+                    </div>
+                    <!-- <div> {{ single.id }} </div>
                     <div> {{ single.date }} </div>
                     <div> {{ single.user.avatar }} </div>
                     <div> {{ single.user.name }} </div>
                     <div> {{ single.text }} </div>
                     <div> {{ single.likes }} </div>
-                    <div> {{ single.iLikedIt }} </div>
+                    <div> {{ single.iLikedIt }} </div> -->
                 </template>
+                
+                <input type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
             </div>
         </div>
 
@@ -45,7 +67,9 @@
 
 <script setup lang="ts">
 import type { IDiscussion } from '@/models'
-import { useClassName } from '@/utils';
+import { useClassName, getDateDusration } from '@/utils';
+import BaseBtn from '@/components/TheDiscussions/BaseBtn.vue';
+import Iconlike from '@/components/TheDiscussions/Iconlike.vue';
 interface Props {
     discussion: IDiscussion
 }
