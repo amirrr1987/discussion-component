@@ -3,14 +3,14 @@ export const useClassName = ({ name }: { name: string }) => {
     return `dnj-${name}`;
 }
 export const getDateDusration = ({ timeStamp }: { timeStamp: number }) => {
-    var dateString = moment.unix(timeStamp).format("YYYY/MM/DD");
+    var dateString = moment(timeStamp, "YYYY/MM/DD");
     return moment(dateString).fromNow()
 }
 export const getDiscussionsApi = () => {
     return [
         {
             id: 3,
-            date: 1672576574000,
+            date: 1657430569,
             user: {
                 name: "Bessie Cooper",
                 avatar: "https://www.godaddy.com/garage/wp-content/uploads/judith-kallos-BW-NEW-150x150.jpg"
@@ -21,7 +21,7 @@ export const getDiscussionsApi = () => {
             replies: [
                 {
                     id: 5,
-                    date: 1672581014000,
+                    date: 1670653369,
                     user: {
                         name: "Marvin McKinney",
                         avatar: "https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50"
@@ -32,7 +32,7 @@ export const getDiscussionsApi = () => {
                 },
                 {
                     id: 6,
-                    date: 1672581614000,
+                    date: 1674838706,
                     user: {
                         name: "Bessie Cooper",
                         avatar: "https://www.godaddy.com/garage/wp-content/uploads/judith-kallos-BW-NEW-150x150.jpg",
@@ -45,7 +45,7 @@ export const getDiscussionsApi = () => {
         },
         {
             id: 2,
-            date: 1672232414000,
+            date: 1672554169,
             user: {
                 name: "Marvin McKinney",
                 avatar: "https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50"
@@ -57,7 +57,7 @@ export const getDiscussionsApi = () => {
         },
         {
             id: 1,
-            date: 1671886814000,
+            date: 1672726969,
             user: {
                 name: "Savannah Nguyen"
             },

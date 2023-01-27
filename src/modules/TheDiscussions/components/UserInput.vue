@@ -1,7 +1,7 @@
 <template>
     <div :class="[`${prefixCls}`]">
         <UserAvatar :user="props.user" />
-        <input type="text" :class="[`${prefixCls}__input`]" :value="props.modelValue" @input="updateValue">
+        <input type="text" :class="[`${prefixCls}__input`]" :placeholder="props.placeholder" :value="props.modelValue" @input="updateValue">
     </div>
 
 </template>
@@ -9,16 +9,18 @@
 <script setup lang="ts">
 import type { IUser } from '@/models';
 import { useClassName } from '@/utils';
-import { computed } from 'vue';
+import { computed, onMounted } from 'vue';
 import UserAvatar from './UserAvatar.vue';
 
 
 interface Props {
-    modelValue: String
-    user: IUser
+    modelValue: any
+    user: any
+    placeholder: string
 }
 const props = withDefaults(defineProps<Props>(), {
     modelValue: '',
+    placeholder: '',
     user: {
         name: '',
         avatar: ''
@@ -30,20 +32,7 @@ const updateValue = (event: any) => {
     emits('update:modelValue', event.target.value) // previously was `this.$emit('input', title)`
 }
 
-const userImageComputed = computed(() => {
 
-    if (props.user.avatar) {
-        return props.user.avatar
-    }
-    else {
-        return props.user.name
-    }
-})
-const userNameComputed = computed(() => {
-    const list = props.user.name.split(' ')
-    return list[0].charAt(0) + '' + list[1].charAt(0)
-
-})
 
 const prefixCls = useClassName({ name: 'user-input' })
 </script>
@@ -55,7 +44,7 @@ const prefixCls = useClassName({ name: 'user-input' })
     @apply flex gap-x-2 items-center;
 
     &__input {
-        @apply block w-full p-2 text-gray-900 border border-solid border-gray-300 rounded-md bg-gray-50 sm: text-xs focus:ring-blue-500 focus:border-blue-500;
+        @apply block w-full p-2 text-gray-900 border border-solid border-gray-300 rounded bg-gray-50 sm: text-xs focus:ring-blue-500 focus:border-blue-500;
     }
 
     &__image {

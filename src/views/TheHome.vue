@@ -15,7 +15,7 @@ const prefixCls = useClassName({ name: 'the-home' })
 @prefix-cls: ~'@{namespace}-the-home';
 .@{prefix-cls} {
     &__container{
-        @apply container mx-auto px-4;
+        // @apply container mx-auto px-4;
     }
 }
 </style>
