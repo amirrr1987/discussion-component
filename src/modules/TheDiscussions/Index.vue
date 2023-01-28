@@ -1,7 +1,7 @@
 <template>
     <div :class="[`${prefixCls}`]">
         <div :class="[`${prefixCls}__user-comment`]">
-            <UserInput v-model:modelValue="userTextTemp" :user="person.user" placeholder="Start a discussion"
+            <UserInput v-model:modelValue="userTextTemp" ref="" :user="person.user" placeholder="Start a discussion"
                 @submit="userSubmitHandler" />
         </div>
         <div class="grid gap-8">
@@ -17,7 +17,6 @@ import { reactive, ref } from 'vue';
 import type { IDiscussion } from '@/models/index'
 import UserInput from './components/UserInput.vue';
 import UserDiscussion from './components/UserDiscussion.vue';
-import moment from 'moment';
 const discussions = reactive<IDiscussion[]>([
     {
         id: 3,
@@ -103,9 +102,8 @@ const userSubmitHandler = async () => {
     // await getDiscussions()
     person.text = userTextTemp.value
     let temp: any = {};
-    
     Object.assign(temp, person)
-    if (userTextTemp.value.length> 0) {
+    if (userTextTemp.value.length > 0) {
         discussions.push(temp)
         userTextTemp.value = ''
     }

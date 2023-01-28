@@ -21,11 +21,10 @@
 </template>
 <script setup lang="ts">
 import { useClassName, getDateDuration } from '@/utils';
-import type { IDiscussion } from '@/models/index'
+import type { IComment } from '@/models/index'
 import { computed } from 'vue';
-
 interface Props {
-    userDetail: IDiscussion
+    userDetail: IComment
     hasReply: boolean
 }
 const props = withDefaults(defineProps<Props>(), {
@@ -43,24 +42,18 @@ const props = withDefaults(defineProps<Props>(), {
     },
     hasReply: false
 })
-
 const emits = defineEmits(['likeHandler', 'replyHandler'])
-
 const likeHandler = ({ likeState }: { likeState: boolean }) => {
     if (likeState) {
         props.userDetail.likes -= 1
         props.userDetail.iLikedIt = false
-
     }
     if (!likeState) {
         props.userDetail.likes += 1
         props.userDetail.iLikedIt = true
-
     }
-
     emits('likeHandler')
 }
-
 const replyHandler = () => {
     emits('replyHandler')
 }
@@ -78,6 +71,5 @@ const prefixCls = useClassName({ name: 'user-comment' })
 @import '@/assets/less';
 @import '@/modules/TheDiscussions/assets/css/icon.css';
 @prefix-cls: ~'@{namespace}-user-comment';
-
 .@{prefix-cls} {}
 </style>

@@ -1,23 +1,18 @@
 <template>
     <div :class="[`${prefixCls}`]">
         <UserAvatar :user="props.user" />
-        <input type="text" :class="[`${prefixCls}__input`]" :placeholder="props.placeholder" :value="props.modelValue"
-            @input="updateValue" @keyup.enter="submitHandler">
+        <input type="text" :class="[`${prefixCls}__input`]" ref="props.ref" :placeholder="props.placeholder"
+            :value="props.modelValue" @input="updateValue" @keyup.enter="submitHandler" autofocus>
     </div>
-
 </template>
-
 <script setup lang="ts">
-import type { IUser } from '@/models';
 import { useClassName } from '@/utils';
-import { computed, onMounted } from 'vue';
 import UserAvatar from './UserAvatar.vue';
-
-
 interface Props {
     modelValue: any
     user: any
     placeholder: string
+    ref: any
 }
 const props = withDefaults(defineProps<Props>(), {
     modelValue: '',
@@ -25,20 +20,17 @@ const props = withDefaults(defineProps<Props>(), {
     user: {
         name: '',
         avatar: ''
-    }
+    },
+    ref: null
 })
 const emits = defineEmits(['update:modelValue', 'submit'])
-
 const updateValue = (event: any) => {
-    emits('update:modelValue', event.target.value) // previously was `this.$emit('input', title)`
+    emits('update:modelValue', event.target.value)
 }
 const submitHandler = (event: any) => {
     emits('submit')
     event.target.value = ''
 }
-
-
-
 const prefixCls = useClassName({ name: 'user-input' })
 </script>
 <style lang="less">
