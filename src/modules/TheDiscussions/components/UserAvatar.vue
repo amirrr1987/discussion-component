@@ -17,7 +17,7 @@ const props = withDefaults(defineProps<Props>(), {
 const userNameComputed = computed(() => {
     const { name } = props.user
     if (name) {
-        return name.split(' ').map(x => x.charAt(0)).join('').substr(0, 2).toUpperCase()
+        return name.split(' ').map((x: string) => x.charAt(0)).join('').substr(0, 2).toUpperCase()
     }
 })
 const prefixCls = useClassName({ name: 'user-avatar' })
