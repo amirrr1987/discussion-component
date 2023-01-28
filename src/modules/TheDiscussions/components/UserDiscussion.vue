@@ -8,12 +8,10 @@
             <UserComment :userDetail="props.discussion" hasReply @replyHandler="inputVisibilityHandler" />
             <div class="">
                 <template v-for="single in props.discussion.replies">
-                    <div>
-                        <div class="grid grid-cols-[max-content_1fr] gap-x-4 items-start">
+                        <div class="grid grid-cols-[max-content_1fr] gap-x-2 items-start">
                             <UserAvatar :user="single.user" />
                             <UserComment :userDetail="single" :hasReply="false" />
                         </div>
-                    </div>
                 </template>
                 <UserInput ref="replyInput" class="mt-2" v-model:modelValue="userCommentTemp" placeholder="Reply"
                     :user="props.discussion.user" v-if="inputVisibility" @submit="addToRepliesHandler" />
@@ -77,7 +75,7 @@ const prefixCls = useClassName({ name: 'user-discussion' })
 @import '@/assets/less';
 @prefix-cls: ~'@{namespace}-user-discussion';
 .@{prefix-cls} {
-    @apply p-4 border-b border-b-solid border-b-gray-200 grid gap-x-4;
+    @apply p-4 border-b border-b-solid border-b-gray-200 grid gap-x-2;
     grid-template-columns: max-content 1fr;
 }
 </style>

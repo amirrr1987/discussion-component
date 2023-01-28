@@ -1,8 +1,8 @@
 <template>
     <div :class="[`${prefixCls}`]">
-        <div class="flex gap-x-1 mb-2">
+        <div class="flex gap-x-2 mb-2 items-center">
             <span>{{ props.userDetail.user.name }}</span>
-            <span class="text-gray-400">{{ getDateDuration({ timeStamp: props.userDetail.date }) }}</span>
+            <span class="text-gray-400 text-sm">{{ getDateDuration({ timeStamp: props.userDetail.date }) }}</span>
         </div>
         <div class="mb-4 text-gray-500">
             {{ props.userDetail.text }}

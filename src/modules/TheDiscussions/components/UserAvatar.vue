@@ -27,10 +27,12 @@ const prefixCls = useClassName({ name: 'user-avatar' })
 @prefix-cls: ~'@{namespace}-user-avatar';
 .@{prefix-cls} {
     &__image {
-        @apply w-10 h-10 rounded-full;
+        @apply h-10 rounded-full;
+        aspect-ratio: 1 / 1;
     }
     &__no-image {
-        @apply w-10 h-10 rounded-full bg-[#DEEDFC] text-[#135CA0] font-semibold flex justify-center items-center;
+        @apply h-10 rounded-full bg-[#DEEDFC] text-[#135CA0] font-semibold flex justify-center items-center;
+        aspect-ratio: 1 / 1;
     }
 }
 </style>
