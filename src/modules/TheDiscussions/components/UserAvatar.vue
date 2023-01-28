@@ -5,7 +5,6 @@
     </div>
 </template>
 <script setup lang="ts">
-import type { IUser } from '@/models';
 import { useClassName } from '@/utils';
 import { computed } from 'vue';
 interface Props {
@@ -28,11 +27,14 @@ const prefixCls = useClassName({ name: 'user-avatar' })
 <style lang="less">
 @import '@/assets/less';
 @prefix-cls: ~'@{namespace}-user-avatar';
+
 .@{prefix-cls} {
     @apply flex gap-x-2 items-center;
+
     &__image {
         @apply w-10 h-10 rounded-full;
     }
+
     &__no-image {
         @apply w-10 h-10 rounded-full bg-[#DEEDFC] text-[#135CA0] font-semibold flex justify-center items-center;
     }

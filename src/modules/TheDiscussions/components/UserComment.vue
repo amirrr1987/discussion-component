@@ -1,0 +1,71 @@
+<template>
+    <div :class="[`${prefixCls}`]">
+        <div class="flex gap-x-4 mb-2">
+            <span>{{ props.userDetail.user.name }}</span>
+            <span class="text-gray-400">{{ getDateDuration({ timeStamp: props.userDetail.date }) }}</span>
+        </div>
+        <div class="mb-4 text-gray-500">
+            {{ props.userDetail.text }}
+        </div>
+        <div class="mb-4">
+            <button type="button" :class="likesClassComputed" class="w-19 h-8 rounded-full" @click="likeHandler">
+                <span class="icon--thumbs-up-1 text-sm"></span>
+                {{ props.userDetail.likes }}
+            </button>
+            <button class="w-19 h-9 text-blue" v-if="props.hasReply" @click="replyHandler">
+                Reply
+            </button>
+        </div>
+    </div>
+</template>
+<script setup lang="ts">
+import { useClassName, getDateDuration } from '@/utils';
+import type { IDiscussion } from '@/models/index'
+import { computed } from 'vue';
+
+interface Props {
+    userDetail: IDiscussion
+    hasReply: boolean
+}
+const props = withDefaults(defineProps<Props>(), {
+    userDetail: {
+        id: 1,
+        date: 1657430563239,
+        user: {
+            name: "",
+            avatar: ""
+        },
+        text: "",
+        likes: 1,
+        iLikedIt: false,
+        replies: []
+    },
+    hasReply: false
+})
+
+const emits = defineEmits(['likeHandler', 'replyHandler'])
+
+const likeHandler = () => {
+    emits('likeHandler')
+}
+
+const replyHandler = () => {
+    emits('replyHandler')
+}
+const likesClassComputed = computed(() => {
+    if (props.userDetail.iLikedIt) {
+        return 'bg-blue-500 text-white'
+    }
+    else {
+        return 'bg-gray-200'
+    }
+})
+const prefixCls = useClassName({ name: 'user-comment' })
+</script>
+<style lang="less">
+@import '@/assets/less';
+@import '@/modules/TheDiscussions/assets/css/icon.css';
+@prefix-cls: ~'@{namespace}-user-comment';
+
+.@{prefix-cls} {}
+</style>

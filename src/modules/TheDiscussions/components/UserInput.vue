@@ -1,7 +1,8 @@
 <template>
     <div :class="[`${prefixCls}`]">
         <UserAvatar :user="props.user" />
-        <input type="text" :class="[`${prefixCls}__input`]" :placeholder="props.placeholder" :value="props.modelValue" @input="updateValue">
+        <input type="text" :class="[`${prefixCls}__input`]" :placeholder="props.placeholder" :value="props.modelValue"
+            @input="updateValue" @keyup.enter="submitHandler">
     </div>
 
 </template>
@@ -26,10 +27,14 @@ const props = withDefaults(defineProps<Props>(), {
         avatar: ''
     }
 })
-const emits = defineEmits(['update:modelValue'])
+const emits = defineEmits(['update:modelValue', 'submit'])
 
 const updateValue = (event: any) => {
     emits('update:modelValue', event.target.value) // previously was `this.$emit('input', title)`
+}
+const submitHandler = (event: any) => {
+    emits('submit')
+    event.target.value = ''
 }
 
 
