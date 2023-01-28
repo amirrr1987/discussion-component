@@ -47,6 +47,11 @@ const props = withDefaults(defineProps<Props>(), {
 const emits = defineEmits(['likeHandler', 'replyHandler'])
 
 const likeHandler = ({ likeState }: { likeState: boolean }) => {
+    if (likeState) {
+        props.userDetail.likes -= 1
+        props.userDetail.iLikedIt = false
+
+    }
     if (!likeState) {
         props.userDetail.likes += 1
         props.userDetail.iLikedIt = true

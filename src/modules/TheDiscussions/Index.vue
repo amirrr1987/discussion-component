@@ -1,7 +1,7 @@
 <template>
     <div :class="[`${prefixCls}`]">
         <div :class="[`${prefixCls}__user-comment`]">
-            <UserInput v-model:modelValue="person.text" :user="person.user" placeholder="Start a discussion"
+            <UserInput v-model:modelValue="userTextTemp" :user="person.user" placeholder="Start a discussion"
                 @submit="userSubmitHandler" />
         </div>
         <div class="grid gap-8">
@@ -13,7 +13,7 @@
 </template>
 <script setup lang="ts">
 import { getId, toTimestamp, useClassName, } from '@/utils';
-import { reactive } from 'vue';
+import { reactive, ref } from 'vue';
 import type { IDiscussion } from '@/models/index'
 import UserInput from './components/UserInput.vue';
 import UserDiscussion from './components/UserDiscussion.vue';
@@ -97,12 +97,18 @@ const person = reactive({
     iLikedIt: false,
     replies: []
 })
+const userTextTemp = ref('')
 const userSubmitHandler = async () => {
     // await updateDiscussionsApi({ userDiscussion: person })
     // await getDiscussions()
-    let temp :any = {};
+    person.text = userTextTemp.value
+    let temp: any = {};
+    
     Object.assign(temp, person)
-    discussions.push(temp)
+    if (userTextTemp.value.length> 0) {
+        discussions.push(temp)
+        userTextTemp.value = ''
+    }
 }
 const prefixCls = useClassName({ name: 'the-discussions' })
 </script>

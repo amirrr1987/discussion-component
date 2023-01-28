@@ -72,7 +72,11 @@ const addToRepliesHandler = () => {
         likes: 0,
         iLikedIt: false,
     }
-    props.discussion.replies.push(obj)
+    if (userCommentTemp.value.length > 0) {
+        
+        props.discussion.replies.push(obj)
+        userCommentTemp.value = ''
+    }
 }
 const prefixCls = useClassName({ name: 'user-discussion' })
 </script>
