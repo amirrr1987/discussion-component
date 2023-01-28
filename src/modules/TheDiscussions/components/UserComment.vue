@@ -1,6 +1,6 @@
 <template>
     <div :class="[`${prefixCls}`]">
-        <div class="flex gap-x-4 mb-2">
+        <div class="flex gap-x-1 mb-2">
             <span>{{ props.userDetail.user.name }}</span>
             <span class="text-gray-400">{{ getDateDuration({ timeStamp: props.userDetail.date }) }}</span>
         </div>
@@ -71,5 +71,7 @@ const prefixCls = useClassName({ name: 'user-comment' })
 @import '@/assets/less';
 @import '@/modules/TheDiscussions/assets/css/icon.css';
 @prefix-cls: ~'@{namespace}-user-comment';
-.@{prefix-cls} {}
+.@{prefix-cls} {
+    // @apply text-xs;
+}
 </style>
