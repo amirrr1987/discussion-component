@@ -135,3 +135,11 @@ export const getDiscussionsApi = () => {
         }
     ]
 }
+
+export const getId = () => {
+    return discussions.length + 1
+}
+export const toTimestamp = () => {
+    const dt = moment().unix();
+    return dt;
+}

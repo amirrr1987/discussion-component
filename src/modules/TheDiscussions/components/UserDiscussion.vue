@@ -17,7 +17,7 @@
                         </div>
                     </div>
                 </template>
-                <UserInput class="mt-2" v-model:modelValue="person.text" placeholder="Reply" :user="person.user"
+                <UserInput class="mt-2" v-model:modelValue="userCommentTemp" placeholder="Reply" :user="props.discussion.user"
                     v-if="inputVisibility" @submit="addToRepliesHandler" />
             </div>
         </div>
@@ -25,7 +25,7 @@
 </template>
 <script setup lang="ts">
 import { reactive, ref } from 'vue';
-import { useClassName, getDateDuration } from '@/utils';
+import { useClassName, getDateDuration, toTimestamp } from '@/utils';
 import type { IDiscussion } from '@/models/index'
 import UserInput from '@/modules/TheDiscussions/components/UserInput.vue';
 import UserAvatar from '@/modules/TheDiscussions/components/UserAvatar.vue';
@@ -47,20 +47,32 @@ const props = withDefaults(defineProps<Props>(), {
         replies: []
     }
 })
-const person = reactive({
-    user: {
-        name: "Bessie Cooper",
-        avatar: "https://www.godaddy.com/garage/wp-content/uploads/judith-kallos-BW-NEW-150x150.jpg"
-    },
-    text: ""
-})
+// const person = reactive({
+//     user: {
+//         name: "Bessie Cooper",
+//         avatar: "https://www.godaddy.com/garage/wp-content/uploads/judith-kallos-BW-NEW-150x150.jpg"
+//     },
+//     text: ""
+// })
 const inputVisibility = ref(false)
 const inputVisibilityHandler = () => {
     inputVisibility.value = !inputVisibility.value
 }
+const userCommentTemp = ref('')
 
 const addToRepliesHandler = () => {
-
+    let obj = {
+        id: props.discussion.id,
+        date: toTimestamp(),
+        user: {
+            name: props.discussion.user.name,
+            avatar: props.discussion.user.avatar
+        },
+        text: userCommentTemp.value,
+        likes: 0,
+        iLikedIt: false,
+    }
+    props.discussion.replies.push(obj)
 }
 const prefixCls = useClassName({ name: 'user-discussion' })
 </script>

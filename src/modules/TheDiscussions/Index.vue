@@ -12,40 +12,103 @@
     </div>
 </template>
 <script setup lang="ts">
-import { useClassName, getDiscussionsApi, updateDiscussionsApi } from '@/utils';
-import { onMounted, reactive } from 'vue';
+import { getId, toTimestamp, useClassName, } from '@/utils';
+import { reactive } from 'vue';
 import type { IDiscussion } from '@/models/index'
 import UserInput from './components/UserInput.vue';
 import UserDiscussion from './components/UserDiscussion.vue';
-
-const discussions = reactive<IDiscussion[]>([])
-
-const getDiscussions = async() => {
-    const data = await getDiscussionsApi()
-    Object.assign(discussions, data)
-}
-onMounted(async () => {
-    await getDiscussions()
-
-})
-const person = reactive({
-    user: {
-        name: "Bessie Cooper",
-        avatar: "https://www.godaddy.com/garage/wp-content/uploads/judith-kallos-BW-NEW-150x150.jpg"
+import moment from 'moment';
+const discussions = reactive<IDiscussion[]>([
+    {
+        id: 3,
+        date: 1657430569,
+        user: {
+            name: "Bessie Cooper",
+            avatar: "https://www.godaddy.com/garage/wp-content/uploads/judith-kallos-BW-NEW-150x150.jpg"
+        },
+        text: "I think for our second compaign we can try to target a different audience. How does it sound for you?",
+        likes: 2,
+        iLikedIt: false,
+        replies: [
+            {
+                id: 5,
+                date: 1670653369,
+                user: {
+                    name: "Marvin McKinney",
+                    avatar: "https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50"
+                },
+                text: "Yes, that sounds good! I can think about this tomorrow. Then do we plan to start that compaign?",
+                likes: 3,
+                iLikedIt: true,
+            },
+            {
+                id: 6,
+                date: 1674838706,
+                user: {
+                    name: "Bessie Cooper",
+                    avatar: "https://www.godaddy.com/garage/wp-content/uploads/judith-kallos-BW-NEW-150x150.jpg",
+                },
+                text: "We plan to run the compaign on Friday - as far as I know. Do you think you will get this done by Thursday @Marvin?",
+                likes: 0,
+                iLikedIt: false,
+            }
+        ]
     },
-    text: ""
+    {
+        id: 2,
+        date: 1672554169,
+        user: {
+            name: "Marvin McKinney",
+            avatar: "https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50"
+        },
+        text: "The first compaign went smoothly. Please make sure to see all attachments with the results to understand the flow.",
+        likes: 2,
+        iLikedIt: false,
+        replies: []
+    },
+    {
+        id: 1,
+        date: 1672726969,
+        user: {
+            name: "Savannah Nguyen"
+        },
+        text: "We have just published the first campaign. Let's see the results in the 5 days and we will iterate on this.",
+        likes: 50,
+        iLikedIt: true,
+        replies: []
+    }
+])
+// const getDiscussions = async() => {
+//     const data = await getDiscussionsApi()
+//     Object.assign(discussions, data)
+// }
+// onMounted(async () => {
+//     await getDiscussions()
+// })
+const person = reactive({
+    id: getId(),
+    date: toTimestamp(),
+    user: {
+        name: "Savannah Nguyen",
+        avatar: "https://www.godaddy.com/garage/wp-content/uploads/judith-kallos-BW-NEW-150x150.jpg",
+    },
+    text: "",
+    likes: 0,
+    iLikedIt: false,
+    replies: []
 })
-
-const userSubmitHandler = async() => {
-    await updateDiscussionsApi({ userDiscussion: person })
-    await getDiscussions()
+const userSubmitHandler = async () => {
+    // await updateDiscussionsApi({ userDiscussion: person })
+    // await getDiscussions()
+    let temp :any = {};
+    Object.assign(temp, person)
+    discussions.push(temp)
 }
 const prefixCls = useClassName({ name: 'the-discussions' })
 </script>
 <style lang="less">
 @import '@/assets/less';
 @prefix-cls: ~'@{namespace}-the-discussions';
-
 .@{prefix-cls} {
     &__user-comment {
         @apply bg-[#FAFBFC] py-8 border-b border-b-solid border-b-gray px-4;

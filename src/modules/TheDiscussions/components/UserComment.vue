@@ -8,7 +8,8 @@
             {{ props.userDetail.text }}
         </div>
         <div class="mb-4">
-            <button type="button" :class="likesClassComputed" class="w-19 h-8 rounded-full" @click="likeHandler">
+            <button type="button" :class="likesClassComputed" class="w-19 h-8 rounded-full"
+                @click="likeHandler({ likeState: props.userDetail.iLikedIt })">
                 <span class="icon--thumbs-up-1 text-sm"></span>
                 {{ props.userDetail.likes }}
             </button>
@@ -45,7 +46,13 @@ const props = withDefaults(defineProps<Props>(), {
 
 const emits = defineEmits(['likeHandler', 'replyHandler'])
 
-const likeHandler = () => {
+const likeHandler = ({ likeState }: { likeState: boolean }) => {
+    if (!likeState) {
+        props.userDetail.likes += 1
+        props.userDetail.iLikedIt = true
+
+    }
+
     emits('likeHandler')
 }
 
