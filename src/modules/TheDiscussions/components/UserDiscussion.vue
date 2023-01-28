@@ -12,7 +12,7 @@
                     <div>
                         <div class="grid grid-cols-[max-content_1fr] gap-x-4">
                             <UserAvatar :user="single.user" />
-                            <UserComment :userDetail="single" @likeHandler="" @replyHandler="" />
+                            <UserComment :userDetail="single" :hasReply="false" @likeHandler="" @replyHandler="" />
 
                         </div>
                     </div>
