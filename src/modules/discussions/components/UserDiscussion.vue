@@ -14,20 +14,22 @@
                         </div>
                 </template>
                 <UserInput ref="replyInput" class="mt-2" v-model:modelValue="userCommentTemp" placeholder="Reply"
-                    :user="props.discussion.user" v-if="inputVisibility" @submit="addToRepliesHandler" />
+                    :user="props.user" v-if="inputVisibility" @submit="addToRepliesHandler" />
             </div>
         </div>
     </div>
 </template>
 <script setup lang="ts">
 import { ref } from 'vue';
-import { useClassName, toTimestamp } from '@/utils';
+import { useClassName, } from '@/utils';
 import type { IDiscussion } from '@/models/index'
 import UserInput from '@/modules/TheDiscussions/components/UserInput.vue';
 import UserAvatar from '@/modules/TheDiscussions/components/UserAvatar.vue';
 import UserComment from '@/modules/TheDiscussions/components/UserComment.vue';
+
 interface Props {
-    discussion: IDiscussion
+    discussion: any
+    user: any
 }
 const props = withDefaults(defineProps<Props>(), {
     discussion: {
@@ -39,6 +41,18 @@ const props = withDefaults(defineProps<Props>(), {
         },
         text: "",
         likes: 1,
+        iLikedIt: false,
+        replies: []
+    },
+    user: {
+        id: 1,
+        date: 1,
+        user: {
+            name: "Savannah Nguyen",
+            avatar: "https://www.godaddy.com/garage/wp-content/uploads/judith-kallos-BW-NEW-150x150.jpg",
+        },
+        text: "",
+        likes: 0,
         iLikedIt: false,
         replies: []
     }
@@ -54,11 +68,11 @@ const inputVisibilityHandler = () => {
 const userCommentTemp = ref('')
 const addToRepliesHandler = () => {
     let obj = {
-        id: props.discussion.id,
-        date: toTimestamp(),
+        id: props.user.id,
+        date: 1,
         user: {
-            name: props.discussion.user.name,
-            avatar: props.discussion.user.avatar
+            name: props.user.name,
+            avatar: props.user.avatar
         },
         text: userCommentTemp.value,
         likes: 0,

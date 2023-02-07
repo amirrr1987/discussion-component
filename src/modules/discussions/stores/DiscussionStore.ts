@@ -1,0 +1,111 @@
+import { ref, computed, reactive } from 'vue'
+import { defineStore } from 'pinia'
+import type { IDiscussion } from '@/models'
+// import { } from '.'
+
+interface Store {
+  discussions: IDiscussion[],
+  person: IDiscussion
+}
+
+export const useDiscussionStore = defineStore('Discussion', () => {
+  const store = reactive<Store>({
+    discussions: [
+      {
+        id: 3,
+        date: 1657430569,
+        user: {
+          name: "Bessie Cooper",
+          avatar: "https://www.godaddy.com/garage/wp-content/uploads/judith-kallos-BW-NEW-150x150.jpg"
+        },
+        text: "I think for our second compaign we can try to target a different audience. How does it sound for you?",
+        likes: 2,
+        iLikedIt: false,
+        replies: [
+          {
+            id: 5,
+            date: 1670653369,
+            user: {
+              name: "Marvin McKinney",
+              avatar: "https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50"
+            },
+            text: "Yes, that sounds good! I can think about this tomorrow. Then do we plan to start that compaign?",
+            likes: 3,
+            iLikedIt: true,
+          },
+          {
+            id: 6,
+            date: 1674838706,
+            user: {
+              name: "Bessie Cooper",
+              avatar: "https://www.godaddy.com/garage/wp-content/uploads/judith-kallos-BW-NEW-150x150.jpg",
+            },
+            text: "We plan to run the compaign on Friday - as far as I know. Do you think you will get this done by Thursday @Marvin?",
+            likes: 0,
+            iLikedIt: false,
+          }
+        ]
+      },
+      {
+        id: 2,
+        date: 1672554169,
+        user: {
+          name: "Marvin McKinney",
+          avatar: "https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50"
+        },
+        text: "The first compaign went smoothly. Please make sure to see all attachments with the results to understand the flow.",
+        likes: 2,
+        iLikedIt: false,
+        replies: []
+      },
+      {
+        id: 1,
+        date: 1672726969,
+        user: {
+          name: "Savannah Nguyen"
+        },
+        text: "We have just published the first campaign. Let's see the results in the 5 days and we will iterate on this.",
+        likes: 50,
+        iLikedIt: true,
+        replies: []
+      }
+    ],
+    person: {
+      id: 1,
+      date: 1672726969,
+      user: {
+        name: "Savannah Nguyen"
+      },
+      text: "We have just published the first campaign. Let's see the results in the 5 days and we will iterate on this.",
+      likes: 50,
+      iLikedIt: true,
+      replies: []
+    }
+  })
+
+  const addToDiscussions = ({ userComment }: { userComment: string }) => {
+    const obj = {
+      id: 1,
+      date: 1672726969,
+      user: {
+        name: "Savannah Nguyen"
+      },
+      text: userComment,
+      likes: 50,
+      iLikedIt: true,
+      replies: []
+    }
+
+    store.discussions.push(obj)
+
+    // console.log('obj',obj);
+
+    // const discussionIndex = store.discussions.findIndex((discussion) => {
+    //   return discussion.id == obj.id
+    // })
+    // console.log('discussionIndex',discussionIndex);
+    // Object.assign(store.discussions[discussionIndex], obj)
+  }
+
+  return { store, addToDiscussions }
+})

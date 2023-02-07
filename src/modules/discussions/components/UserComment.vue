@@ -20,9 +20,10 @@
     </div>
 </template>
 <script setup lang="ts">
-import { useClassName, getDateDuration } from '@/utils';
-import type { IComment } from '@/models/index'
+import { useClassName } from '@/utils';
+import type { IComment } from '@/'
 import { computed } from 'vue';
+
 interface Props {
     userDetail: IComment
     hasReply: boolean
@@ -70,7 +71,9 @@ const prefixCls = useClassName({ name: 'user-comment' })
 <style lang="less">
 @import '@/assets/less';
 @import '@/modules/TheDiscussions/assets/css/icon.css';
+
 @prefix-cls: ~'@{namespace}-user-comment';
+
 .@{prefix-cls} {
     // @apply text-xs;
 }

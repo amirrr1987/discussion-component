@@ -6,16 +6,17 @@
     </div>
 </template>
 <script setup lang="ts">
-import TheDiscussions from '@/modules/TheDiscussions/Index.vue';
+import TheDiscussions from '@discussions/';
 import { useClassName } from '@/utils';
-const prefixCls = useClassName({ name: 'the-home' })
+const prefixCls = useClassName({ name: 'the-discussions' })
 </script>
 <style lang="less">
 @import '@/assets/less';
-@prefix-cls: ~'@{namespace}-the-home';
+@prefix-cls: ~'@{namespace}-the-discussions';
+
 .@{prefix-cls} {
-    &__container{
-        // @apply container mx-auto px-4;
+    &__container {
+        @apply container mx-auto px-4;
     }
 }
 </style>

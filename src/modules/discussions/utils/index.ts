@@ -3,10 +3,10 @@ import { reactive } from "vue";
 export const useClassName = ({ name }: { name: string }) => {
     return `dnj-${name}`;
 }
-// export const getDateDuration = ({ timeStamp }: { timeStamp: number }) => {
-//     let x = moment.unix(timeStamp).format("YYYY/MM/DD");
-//     return moment(x).fromNow()
-// }
+export const getDateDuration = ({ timeStamp }: { timeStamp: number }) => {
+    let x = moment.unix(timeStamp).format("YYYY/MM/DD");
+    return moment(x).fromNow()
+}
 
 // const discussions = reactive([
 //     {
