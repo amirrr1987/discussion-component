@@ -4,11 +4,11 @@
             <UserInput v-model:modelValue="userTextTemp" ref="" :user="discussionStore.store.person.user"
                 placeholder="Start a discussion" @submit="userSubmitHandler" />
         </div>
-        <div class="grid gap-8">
+        <!-- <div class="grid gap-8">
             <template v-for="(item, index) in discussionStore.store.discussions" :key="index">
                 <UserDiscussion :discussion="item" :user="discussionStore.store.person" />
             </template>
-        </div>
+        </div> -->
 
     </div>
 </template>
@@ -16,7 +16,7 @@
 import { useClassName, } from '@/utils';
 import { reactive, ref } from 'vue';
 import UserInput from './components/UserInput.vue';
-import UserDiscussion from './components/UserDiscussion.vue';
+// import UserDiscussion from './components/UserDiscussion.vue';
 import { useDiscussionStore } from '@discussions/stores/DiscussionStore';
 
 const discussionStore = useDiscussionStore()
