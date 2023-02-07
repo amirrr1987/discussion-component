@@ -17,7 +17,7 @@ import { useClassName, } from '@/utils';
 import { reactive, ref } from 'vue';
 import UserInput from './components/UserInput.vue';
 import UserDiscussion from './components/UserDiscussion.vue';
-import { useDiscussionStore } from '@/modules/TheDiscussions/stores/DiscussionStore';
+import { useDiscussionStore } from '@discussions/stores/DiscussionStore';
 
 const discussionStore = useDiscussionStore()
 // const person = reactive()
