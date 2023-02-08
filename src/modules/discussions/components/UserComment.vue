@@ -2,7 +2,7 @@
     <div :class="[`${prefixCls}`]">
         <div class="flex gap-x-2 mb-2 items-center">
             <span>{{ props.userDetail.user.name }}</span>
-            <span class="text-gray-400 text-sm">{{ getDateDuration({ timeStamp: props.userDetail.date }) }}</span>
+            <!-- <span class="text-gray-400 text-sm">{{ getDateDuration({ timeStamp: props.userDetail.date }) }}</span> -->
         </div>
         <div class="mb-4 text-gray-500">
             {{ props.userDetail.text }}
@@ -21,25 +21,27 @@
 </template>
 <script setup lang="ts">
 import { useClassName } from '@/utils';
-import type { IComment } from '@/'
+import type { IComment } from '@discussions/models'
 import { computed } from 'vue';
 
 interface Props {
     userDetail: IComment
-    hasReply: boolean
+    hasReply?: boolean
 }
 const props = withDefaults(defineProps<Props>(), {
-    userDetail: {
-        id: 1,
-        date: 1657430563239,
-        user: {
-            name: "",
-            avatar: ""
+    userDetail: () => {
+        return {
+            id: 1,
+            date: 1657430563239,
+            user: {
+                name: "",
+                avatar: ""
+            },
+            text: "",
+            likes: 1,
+            iLikedIt: false,
+            replies: []
         },
-        text: "",
-        likes: 1,
-        iLikedIt: false,
-        replies: []
     },
     hasReply: false
 })

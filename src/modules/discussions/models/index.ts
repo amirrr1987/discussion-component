@@ -1,3 +1,5 @@
+import { reactive } from "vue";
+
 export interface IUser {
     name: string;
     avatar?: string;
@@ -13,6 +15,6 @@ export interface IComment {
 export interface IDiscussion extends IComment {
     replies: IComment[];
 }
-export interface IProps {   
+export interface IProps {
     comments: IComment[];
 }

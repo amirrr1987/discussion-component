@@ -1,111 +1,113 @@
 import { ref, computed, reactive } from 'vue'
 import { defineStore } from 'pinia'
-import type { IDiscussion } from '@/models'
-// import { } from '.'
+import type { IProps, IDiscussion } from '../models'
 
-interface Store {
-  discussions: IDiscussion[],
-  person: IDiscussion
+interface State {
+  iDiscussion: IDiscussion,
+  comments: IDiscussion[]
 }
 
 export const useDiscussionStore = defineStore('Discussion', () => {
-  const store = reactive<Store>({
-    discussions: [
+
+  const iDiscussion = reactive<IDiscussion>({
+    id: 1,
+    date: 1,
+    user: {
+      name: 'Amir Maghami',
+      avatar: ''
+    },
+    text: '',
+    likes: 1,
+    iLikedIt: false,
+    replies: []
+  })
+
+  const comments = reactive<IDiscussion[]>([
       {
-        id: 3,
-        date: 1657430569,
+        id: 1,
+        date: 1657430563239,
         user: {
-          name: "Bessie Cooper",
-          avatar: "https://www.godaddy.com/garage/wp-content/uploads/judith-kallos-BW-NEW-150x150.jpg"
+          name: 'Amir Maghami',
+          avatar: ''
         },
-        text: "I think for our second compaign we can try to target a different audience. How does it sound for you?",
-        likes: 2,
+        text: 'To run the app in development mode, open http://localhost:3000 in your browser. You should see the sample TypeScript app running',
+        likes: 1,
+        iLikedIt: false,
+        replies: []
+      },
+      {
+        id: 2,
+        date: 1657430563239,
+        user: {
+          name: 'Sama Maghami',
+          avatar: ''
+        },
+        text: 'Writing function or class components in a React/TypeScript app often requires you to define the type of props passed to them. It enforces type checking so that the code adheres to the defined contract. This guide will cover how to strongly type the props in a function component with the TypeScript interface.',
+        likes: 1,
         iLikedIt: false,
         replies: [
           {
-            id: 5,
-            date: 1670653369,
+            id: 1,
+            date: 1657430563239,
             user: {
-              name: "Marvin McKinney",
-              avatar: "https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50"
+              name: 'Amir Maghami',
+              avatar: ''
             },
-            text: "Yes, that sounds good! I can think about this tomorrow. Then do we plan to start that compaign?",
-            likes: 3,
-            iLikedIt: true,
-          },
-          {
-            id: 6,
-            date: 1674838706,
-            user: {
-              name: "Bessie Cooper",
-              avatar: "https://www.godaddy.com/garage/wp-content/uploads/judith-kallos-BW-NEW-150x150.jpg",
-            },
-            text: "We plan to run the compaign on Friday - as far as I know. Do you think you will get this done by Thursday @Marvin?",
-            likes: 0,
+            text: 'To run the app in development mode, open http://localhost:3000 in your browser. You should see the sample TypeScript app running',
+            likes: 1,
             iLikedIt: false,
           }
         ]
       },
       {
-        id: 2,
-        date: 1672554169,
+        id: 3,
+        date: 1657430563239,
         user: {
-          name: "Marvin McKinney",
-          avatar: "https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50"
+          name: 'Zara Maghami',
+          avatar: ''
         },
-        text: "The first compaign went smoothly. Please make sure to see all attachments with the results to understand the flow.",
-        likes: 2,
+        text: 'including the amount budgeted, amount spent, and amount remaining in a category. There could be one or more budgets to display in the table. You will create a function component to achieve this.',
+        likes: 1,
         iLikedIt: false,
         replies: []
       },
-      {
-        id: 1,
-        date: 1672726969,
-        user: {
-          name: "Savannah Nguyen"
-        },
-        text: "We have just published the first campaign. Let's see the results in the 5 days and we will iterate on this.",
-        likes: 50,
-        iLikedIt: true,
-        replies: []
-      }
-    ],
-    person: {
-      id: 1,
-      date: 1672726969,
-      user: {
-        name: "Savannah Nguyen"
-      },
-      text: "We have just published the first campaign. Let's see the results in the 5 days and we will iterate on this.",
-      likes: 50,
-      iLikedIt: true,
-      replies: []
-    }
-  })
+    ])
 
-  const addToDiscussions = ({ userComment }: { userComment: string }) => {
+  const state = reactive<State>({
+    iDiscussion,
+    comments
+  })
+  
+
+  const pushToComments = ({userComment}:{userComment: string}) => {
+
+    const getId = () => {
+      return comments.length + 1
+    }
     const obj = {
-      id: 1,
-      date: 1672726969,
+      id: getId(),
+      date: Date.now(),
       user: {
-        name: "Savannah Nguyen"
+        name: 'Amir Maghami',
+        avatar: ''
       },
       text: userComment,
-      likes: 50,
-      iLikedIt: true,
+      likes: 0,
+      iLikedIt: false,
       replies: []
     }
 
-    store.discussions.push(obj)
+    let temp: any = {};
+    Object.assign(temp, obj)
+    if (userComment.length > 0) {
+      comments.push(temp)
+      userComment = ''
+      temp = {}
+    }
 
-    // console.log('obj',obj);
-
-    // const discussionIndex = store.discussions.findIndex((discussion) => {
-    //   return discussion.id == obj.id
-    // })
-    // console.log('discussionIndex',discussionIndex);
-    // Object.assign(store.discussions[discussionIndex], obj)
   }
 
-  return { store, addToDiscussions }
+
+
+  return { state, pushToComments }
 })

@@ -1,62 +1,64 @@
 <template>
     <div :class="[`${prefixCls}`]">
-        <div class="flex flex-col items-center gap-y-4">
-            <UserAvatar :user="props.discussion.user" />
-            <span class="bg-gray-200 w-px flex-1"></span>
-        </div>
+        <UserAvatar :user="comment.user" />
         <div class="">
-            <UserComment :userDetail="props.discussion" hasReply @replyHandler="inputVisibilityHandler" />
+            <div class="mb-4">{{ comment.text }}</div>
             <div class="">
-                <template v-for="single in props.discussion.replies">
-                        <div class="grid grid-cols-[max-content_1fr] gap-x-2 items-start">
-                            <UserAvatar :user="single.user" />
-                            <UserComment :userDetail="single" :hasReply="false" />
+
+                <div class="mb-4">
+                    <button class="rounded w-20 h-8" :class="comment.iLikedIt ? 'bg-blue text-light' : 'border border-solid border-blue text-blue'"
+                        @click="likeHandler({ userId: comment.id })">{{ comment.likes }}</button>
+                        <button class="w-20 h-8 text-blue" @click="inputVisibilityHandler">reply</button>
+                </div>
+            </div>
+            <div class="">
+                <template v-for="(item, index) in props.comment.replies" :key="index">
+                    <div class="flex gap-x-4 mb-4">
+                        <UserAvatar :user="item.user" />
+                        <div class="flex-1">
+                            <div class="mb-4">{{ item.text }}</div>
+                            <button class="rounded w-20 h-8"
+                                :class="item.iLikedIt ? 'bg-blue text-light' : 'border border-solid border-blue text-blue'"
+                                @click="repliesLikeHandler({ itemIndex: index })">{{ item.likes }}</button>
                         </div>
+                    </div>
                 </template>
-                <UserInput ref="replyInput" class="mt-2" v-model:modelValue="userCommentTemp" placeholder="Reply"
-                    :user="props.user" v-if="inputVisibility" @submit="addToRepliesHandler" />
+                <input type="text" ref="replyInput" @keyup.enter="addToRepliesHandler" v-model="tempReply" v-if="inputVisibility" class="w-full border outline-none py-1 px-2 text-sm text-gray">
             </div>
         </div>
+
     </div>
 </template>
 <script setup lang="ts">
 import { ref } from 'vue';
 import { useClassName, } from '@/utils';
-import type { IDiscussion } from '@/models/index'
-import UserInput from '@/modules/TheDiscussions/components/UserInput.vue';
-import UserAvatar from '@/modules/TheDiscussions/components/UserAvatar.vue';
-import UserComment from '@/modules/TheDiscussions/components/UserComment.vue';
+import type { IProps, IComment, IDiscussion, } from '@discussions/models'
+// import UserInput from '@discussions/components/UserInput.vue';
+import UserAvatar from '@discussions/components/UserAvatar.vue';
+import { useDiscussionStore } from '../stores/DiscussionStore';
+// import UserComment from '@discussions/components/UserComment.vue';
 
 interface Props {
-    discussion: any
-    user: any
+    comment: IDiscussion
 }
 const props = withDefaults(defineProps<Props>(), {
-    discussion: {
-        id: 1,
-        date: 1657430563239,
-        user: {
-            name: "",
-            avatar: ""
-        },
-        text: "",
-        likes: 1,
-        iLikedIt: false,
-        replies: []
-    },
-    user: {
-        id: 1,
-        date: 1,
-        user: {
-            name: "Savannah Nguyen",
-            avatar: "https://www.godaddy.com/garage/wp-content/uploads/judith-kallos-BW-NEW-150x150.jpg",
-        },
-        text: "",
-        likes: 0,
-        iLikedIt: false,
-        replies: []
+    comment: () => {
+        return {
+            id: 1,
+            date: 1,
+            user: {
+                name: 'Amir Maghami',
+                avatar: ''
+            },
+            text: '',
+            likes: 1,
+            iLikedIt: false,
+            replies: []
+        }
     }
 })
+const { comment } = props;
+
 const inputVisibility = ref(false)
 const replyInput = ref()
 const inputVisibilityHandler = () => {
@@ -65,29 +67,43 @@ const inputVisibilityHandler = () => {
         replyInput.value
     }
 }
-const userCommentTemp = ref('')
+const tempReply = ref('')
 const addToRepliesHandler = () => {
+
     let obj = {
-        id: props.user.id,
+        id: comment.id,
         date: 1,
         user: {
-            name: props.user.name,
-            avatar: props.user.avatar
+            name: comment.user.name,
+            avatar: comment.user.avatar
         },
-        text: userCommentTemp.value,
+        text: tempReply.value,
         likes: 0,
         iLikedIt: false,
     }
-    if (userCommentTemp.value.length > 0) {
-        props.discussion.replies.push(obj)
-        userCommentTemp.value = ''
+    if (tempReply.value.length > 0) {
+        comment.replies.push(obj)
+        tempReply.value = ''
     }
+
+
+
+}
+const likeHandler = ({ userId }: { userId: number }) => {
+    comment.iLikedIt = comment.iLikedIt ? false : true
+    comment.likes = comment.iLikedIt ? ++comment.likes : --comment.likes
+}
+const repliesLikeHandler = ({ itemIndex }: { itemIndex: number }) => {
+    const { replies } = comment;
+    replies[itemIndex].iLikedIt = replies[itemIndex].iLikedIt ? false : true
+    replies[itemIndex].likes = replies[itemIndex].iLikedIt ? ++replies[itemIndex].likes : --replies[itemIndex].likes
 }
 const prefixCls = useClassName({ name: 'user-discussion' })
 </script>
 <style lang="less">
 @import '@/assets/less';
 @prefix-cls: ~'@{namespace}-user-discussion';
+
 .@{prefix-cls} {
     @apply p-4 border-b border-b-solid border-b-gray-200 grid gap-x-2;
     grid-template-columns: max-content 1fr;

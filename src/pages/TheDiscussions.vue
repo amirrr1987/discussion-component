@@ -1,8 +1,7 @@
 <template>
     <div :class="[`${prefixCls}`]">
-        <div :class="[`${prefixCls}__container`]">
             <MDiscussions :class="[`${prefixCls}__discussions`]" />
-        </div>
+  
     </div>
 </template>
 <script setup lang="ts">
@@ -15,8 +14,6 @@ const prefixCls = useClassName({ name: 'the-discussions' })
 @prefix-cls: ~'@{namespace}-the-discussions';
 
 .@{prefix-cls} {
-    &__container {
-        @apply container mx-auto px-4;
-    }
+
 }
 </style>
