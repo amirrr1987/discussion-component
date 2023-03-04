@@ -67,15 +67,16 @@ const inputVisibilityHandler = () => {
         replyInput.value
     }
 }
+const discussionStore = useDiscussionStore()
 const tempReply = ref('')
 const addToRepliesHandler = () => {
 
     let obj = {
-        id: comment.id,
+        id: discussionStore.state.iDiscussion.id,
         date: 1,
         user: {
-            name: comment.user.name,
-            avatar: comment.user.avatar
+            name: discussionStore.state.iDiscussion.user.name,
+            avatar: discussionStore.state.iDiscussion.user.avatar
         },
         text: tempReply.value,
         likes: 0,
