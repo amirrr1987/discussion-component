@@ -1,113 +1,77 @@
-import { ref, computed, reactive } from 'vue'
-import { defineStore } from 'pinia'
-import type { IProps, IDiscussion } from '../models'
+import { ref, computed, reactive } from "vue";
+import { defineStore } from "pinia";
+import type { Comment, User } from "../models";
+import { getCommentsApi, getUserApi } from "@discussions/services";
 
 interface State {
-  iDiscussion: IDiscussion,
-  comments: IDiscussion[]
+  comments: Comment[];
+  user: User;
 }
 
-export const useDiscussionStore = defineStore('Discussion', () => {
-
-  const iDiscussion = reactive<IDiscussion>({
-    id: 1,
-    date: 1,
-    user: {
-      name: 'Amir Maghami',
-      avatar: ''
-    },
-    text: '',
-    likes: 1,
-    iLikedIt: false,
-    replies: []
-  })
-
-  const comments = reactive<IDiscussion[]>([
+export const useDiscussionStore = defineStore("Comment", () => {
+  const state = reactive<State>({
+    comments: [
       {
-        id: 1,
-        date: 1657430563239,
+        _id: "",
+        createdAt: "",
+        updatedAt: "",
         user: {
-          name: 'Amir Maghami',
-          avatar: ''
+          _id: "",
+          fName: "",
+          lName: "",
+          avatar: "",
         },
-        text: 'To run the app in development mode, open http://localhost:3000 in your browser. You should see the sample TypeScript app running',
+        text: "",
         likes: 1,
-        iLikedIt: false,
-        replies: []
-      },
-      {
-        id: 2,
-        date: 1657430563239,
-        user: {
-          name: 'Sama Maghami',
-          avatar: ''
-        },
-        text: 'Writing function or class components in a React/TypeScript app often requires you to define the type of props passed to them. It enforces type checking so that the code adheres to the defined contract. This guide will cover how to strongly type the props in a function component with the TypeScript interface.',
-        likes: 1,
-        iLikedIt: false,
+        isLike: false,
         replies: [
           {
-            id: 1,
-            date: 1657430563239,
+            _id: "",
+            createdAt: "",
+            updatedAt: "",
             user: {
-              name: 'Amir Maghami',
-              avatar: ''
+              _id: "",
+              fName: "",
+              lName: "",
+              avatar: "",
             },
-            text: 'To run the app in development mode, open http://localhost:3000 in your browser. You should see the sample TypeScript app running',
+            text: "",
             likes: 1,
-            iLikedIt: false,
-          }
-        ]
+            isLike: false,
+          },
+        ],
       },
-      {
-        id: 3,
-        date: 1657430563239,
-        user: {
-          name: 'Zara Maghami',
-          avatar: ''
-        },
-        text: 'including the amount budgeted, amount spent, and amount remaining in a category. There could be one or more budgets to display in the table. You will create a function component to achieve this.',
-        likes: 1,
-        iLikedIt: false,
-        replies: []
-      },
-    ])
+    ],
+    user: {
+      _id: "",
+      fName: "",
+      lName: "",
+      avatar: "",
+    },
+  });
 
-  const state = reactive<State>({
-    iDiscussion,
-    comments
-  })
-  
+  const getCommentsStore = async () => {
+    const { data } = await getCommentsApi();
+    console.log(data);
 
-  const pushToComments = ({userComment}:{userComment: string}) => {
+    Object.assign(state.comments, data.data);
+  };
 
-    const getId = () => {
-      return comments.length + 1
-    }
-    const obj = {
-      id: getId(),
-      date: Date.now(),
-      user: {
-        name: 'Amir Maghami',
-        avatar: ''
-      },
-      text: userComment,
-      likes: 0,
-      iLikedIt: false,
-      replies: []
-    }
+  const getUserStore = async ({
+    phone,
+    password,
+  }: {
+    phone: string;
+    password: string;
+  }) => {
+    const { data } = await getUserApi({
+      phone: phone,
+      password: password,
+    });
+    Object.assign(state.user, data.data);
 
-    let temp: any = {};
-    Object.assign(temp, obj)
-    if (userComment.length > 0) {
-      comments.push(temp)
-      userComment = ''
-      temp = {}
-    }
+    // Object.assign(state.comments, data.data);
+  };
 
-  }
-
-
-
-  return { state, pushToComments }
-})
+  return { state, getCommentsStore, getUserStore };
+});

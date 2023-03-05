@@ -8,7 +8,8 @@ const loginValidator = ({ data }) => {
 }
 const registerSchema = z
   .object({
-    name: z.string(),
+    fName: z.string(),
+    lName: z.string(),
     phone: z.string(),
     password: z.string().min(11).max(11),
     confirmPassword: z.string()

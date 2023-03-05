@@ -5,7 +5,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const config = require('config');
 async function registerUser(req, res) {
-  const obj = _.pick(req.body, ["name", "phone", "password", "confirmPassword"])
+  const obj = _.pick(req.body, ["fName", "lName", "phone", "password", "confirmPassword"])
   const validateResult = await UserValidator.registerValidator({ data: obj })
   if (!validateResult.success) {
     return res.status(422)
@@ -35,7 +35,7 @@ async function registerUser(req, res) {
     .status(200)
     .send({
       code: 200,
-      data: _.pick(result, ["phone", "name", "_id"]),
+      data: _.pick(result, ["phone", "fName","lName", "_id"]),
       message: "User is created",
       success: true,
     })
@@ -79,7 +79,7 @@ async function loginUser(req, res) {
     .status(200)
     .send({
       code: 200,
-      data: _.pick(user, ["phone", "name", "_id"]),
+      data: _.pick(user, ["phone", "fName", "lName", "_id"]),
       message: "User found",
       success: true,
     })

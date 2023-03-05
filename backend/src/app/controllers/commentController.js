@@ -1,9 +1,18 @@
-const { createDiscussionValidator, getDiscussionValidator } = require('../validators/discussionValidator');
+const { createCommentValidator, getCommentValidator } = require('../validators/commentValidator');
 const { idValidator } = require('../validators/objectIdValidator');
-const discussionModel = require('../models/discussionModel');
+const commentModel = require('../models/commentModel');
 const _ = require('lodash');
 
-
+// const USER = {
+//   "fName": "Amir",
+//   "lName": "Maghami",
+//   "_id": "64044199f4139b977b2c3f79"
+// }
+const USER = {
+  "fName": "Sama",
+  "lName": "Maghami",
+  "_id": "640468a0698c09e9e051d4eb"
+}
 
 
 // async function createContainer(req, res) {
@@ -144,59 +153,47 @@ const _ = require('lodash');
 //   })
 // }
 
-async function getDiscussionById(req, res) {
-  const { params } = req;
-  const { discussionId } = params
-  const data = await discussionModel.findById(discussionId)
-  res.status(200).send(data)
+async function getCommentById(req, res) {
+
+  const result = await commentModel.find()
+  res.send(result)
+  // res
+  //   .status(200)
+  //   .send({
+  //     code: 200,
+  //     data: result,
+  //     message: "comments found",
+  //     success: true,
+  //   })
 
 }
-async function createDiscussion(req, res) {
+async function createComment(req, res) {
 
   const { body } = req;
+  body.text
+  body.user = USER
+  body.likes = 0
+  body.isLike = false
+  body.replies = []
+  const obj = _.pick(body, "isLike", "likes", "text", "user", "replies")
+  const validateResult = await createCommentValidator({ data: obj })
 
-  const createDiscussionValidateResult = createDiscussionValidator({ data: body })
-  if (!createDiscussionValidateResult.success) {
-    return res.status(404).send(createDiscussionValidateResult.error.issues)
+  if (!validateResult.success) {
+    return res
+      .status(404)
+      .send({
+        code: 404,
+        error: validateResult.error.issues,
+        message: "validation error",
+        success: false,
+      })
   }
 
-  const { _id } = body;
-  if (_id) {
-    const idValidateResult = await idValidator({ data: _id })
-    if (!idValidateResult.success) {
-      return res.status(404).send(idValidateResult.error.issues)
-    }
-  }
-
-  const findByIdResult = await discussionModel.findById(_id)
-  if (findByIdResult) {
-    return res.status(200).send(findByIdResult)
-  }
-
-  const newDiscussion = new discussionModel(body)
-  await newDiscussion.save()
-
-  res.status(201).send(newDiscussion)
-
-
-  // console.log(findByIdResult);
-
-  // if (!data) {
-
-  //   console.log(data);
-  //   res.status(200).send("null data:" + data)
-  // }
-  // console.log(data);
-  // const dis = await new discussionModel()
-  // await dis.save()
-  // console.log('dis', dis);
-  // console.log("id", obj);
+  const newComment = new commentModel(body)
+  await newComment.save()
+  res.status(201).send(newComment)
 }
 module.exports = {
-  getDiscussionById,
-  // getContainerById,
-  // updateContainerById,
-  // deleteContainerById,
-  createDiscussion,
-  // deleteContainers
+  getCommentById,
+  createComment,
 }

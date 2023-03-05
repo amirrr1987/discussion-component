@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 const z = require('zod');
 
-
 const idSchema = z.string().refine((val) => {
   try {
     return mongoose.Types.ObjectId(val);

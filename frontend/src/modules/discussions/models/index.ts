@@ -1,20 +1,31 @@
 import { z } from "zod";
-
-export const schema = z.object({
-  id: z.number(),
-  date: z.number(),
-  user: z.object({ name: z.string(), avatar: z.string() }),
+export const userSchema = z.object({
+  _id: z.string(),
+  fName: z.string(),
+  lName: z.string(),
+  avatar: z.string(),
+});
+const repliesSchema = z.object({
+  user: userSchema,
+  _id: z.string(),
   text: z.string(),
   likes: z.number(),
-  iLikedIt: z.boolean(),
-  replies: z.array(
-    z.object({
-      id: z.number(),
-      date: z.number(),
-      user: z.object({ name: z.string(), avatar: z.string() }),
-      text: z.string(),
-      likes: z.number(),
-      iLikedIt: z.boolean(),
-    })
-  ),
+  isLike: z.boolean(),
+  createdAt: z.string(),
+  updatedAt: z.string(),
 });
+export const commentSchema = 
+  z.object({
+    _id: z.string(),
+    user: userSchema,
+    text: z.string(),
+    likes: z.number(),
+    isLike: z.boolean(),
+    createdAt: z.string(),
+    updatedAt: z.string(),
+    replies: z.array(repliesSchema),
+  })
+
+export type User = z.infer<typeof userSchema>;
+export type Replies = z.infer<typeof repliesSchema>;
+export type Comment = z.infer<typeof commentSchema>;
