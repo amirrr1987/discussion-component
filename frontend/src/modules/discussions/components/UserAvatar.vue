@@ -1,6 +1,6 @@
 <template>
   <img
-    v-if="props.user.avatar.length > 0"
+    v-if="props.user.avatar"
     :src="props.user.avatar"
     :class="[`${prefixCls}__image`]"
     title=""
@@ -26,17 +26,9 @@ const props = withDefaults(defineProps<Props>(), {
   },
 });
 const userNameComputed = computed(() => {
-
-    console.log(props.user);
-    
-
-    // return name.split(' ').map((x: string) => x.charAt(0)).join('').substr(0, 2).toUpperCase()
     const fChar = props.user.fName.charAt(0);
     const lChar = props.user.lName.charAt(0);
-    console.log(fChar, lChar);
-
     return `${fChar + lChar}`;
-  
 });
 const prefixCls = useClassName({ name: "user-avatar" });
 </script>

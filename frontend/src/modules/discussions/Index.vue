@@ -4,17 +4,18 @@
       <UserInput
         v-model:modelValue="userTextTemp"
         ref=""
-        :user="discussionStore.state.user"
+        :user="commentStore.state.user"
         placeholder="Start a discussion"
         @submit="userSubmitHandler"
       />
     </div>
     <div class="grid gap-8">
       <template
-        v-for="(comment, index) in discussionStore.state.comments"
+        v-for="(comment, index) in commentStore.state.comments"
         :key="index"
       >
         <UserDiscussion :comment="comment" />
+        <!-- {{ comment }} -->
       </template>
     </div>
   </div>
@@ -24,19 +25,23 @@ import { useClassName } from "@/utils";
 import { onMounted, reactive, ref } from "vue";
 import UserInput from "./components/UserInput.vue";
 import UserDiscussion from "./components/UserDiscussion.vue";
-import { useDiscussionStore } from "@discussions/stores/DiscussionStore";
-const discussionStore = useDiscussionStore();
-const userTextTemp = ref("");
-const userSubmitHandler = () => {
-  // discussionStore.pushToComments({ userComment: userTextTemp.value });
-};
+import { useCommentStore } from "@/modules/discussions/stores/CommentStore";
+
+const commentStore = useCommentStore();
 
 onMounted(async () => {
-  console.log("onMounted");
-  
-  await discussionStore.getUserStore({phone: "09198881400",password: "09198881400"});
-  await discussionStore.getCommentsStore();
+  await commentStore.getUserStore({
+    phone: "09198881400",
+    password: "09198881400",
+  });
+  await commentStore.getCommentsStore();
 });
+
+const userTextTemp = ref("");
+const userSubmitHandler = async () => {
+  await commentStore.addCommentStore({ text: userTextTemp.value });
+};
+
 const prefixCls = useClassName({ name: "the-discussions" });
 </script>
 <style lang="less">

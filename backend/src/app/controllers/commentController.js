@@ -2,19 +2,16 @@ const { createCommentValidator, getCommentValidator } = require('../validators/c
 const { idValidator } = require('../validators/objectIdValidator');
 const commentModel = require('../models/commentModel');
 const _ = require('lodash');
-
-// const USER = {
-//   "fName": "Amir",
-//   "lName": "Maghami",
-//   "_id": "64044199f4139b977b2c3f79"
-// }
 const USER = {
-  "fName": "Sama",
+  "fName": "Amir",
   "lName": "Maghami",
-  "_id": "640468a0698c09e9e051d4eb"
+  "_id": "64044199f4139b977b2c3f79"
 }
-
-
+// const USER = {
+//   "fName": "Sama",
+//   "lName": "Maghami",
+//   "_id": "640468a0698c09e9e051d4eb"
+// }
 // async function createContainer(req, res) {
 //   const { body, user } = req;
 //   // console.log(body);
@@ -152,9 +149,7 @@ const USER = {
 //     success: true,
 //   })
 // }
-
 async function getCommentById(req, res) {
-
   const result = await commentModel.find()
   res.send(result)
   // res
@@ -165,10 +160,8 @@ async function getCommentById(req, res) {
   //     message: "comments found",
   //     success: true,
   //   })
-
 }
 async function createComment(req, res) {
-
   const { body } = req;
   body.text
   body.user = USER
@@ -177,7 +170,6 @@ async function createComment(req, res) {
   body.replies = []
   const obj = _.pick(body, "isLike", "likes", "text", "user", "replies")
   const validateResult = await createCommentValidator({ data: obj })
-
   if (!validateResult.success) {
     return res
       .status(404)
@@ -188,12 +180,23 @@ async function createComment(req, res) {
         success: false,
       })
   }
-
   const newComment = new commentModel(body)
   await newComment.save()
   res.status(201).send(newComment)
 }
+async function updateComment(req, res) {
+  const { params, body } = req;
+  const { commentId } = params;
+  const result = await commentModel.findByIdAndUpdate(commentId, body, { new: true })
+  if (!result) {
+    res.send({
+      message: "not found id"
+    })
+  }
+  res.send(result)
+}
 module.exports = {
   getCommentById,
   createComment,
+  updateComment
 }

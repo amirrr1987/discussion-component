@@ -5,6 +5,7 @@ const controllers = require('../controllers');
 // const authMiddleware = require('../middlewares/authMiddleware')
 
 router.post('/', controllers.commentController.createComment)
+router.patch('/:commentId', controllers.commentController.updateComment)
 router.get('/', controllers.commentController.getCommentById)
 // router.post('/', controllers.commentController.getCommentById)
 // router.delete('/', authMiddleware, containerController.deleteContainers)
