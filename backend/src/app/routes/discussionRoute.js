@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
 
-const containerController = require('../controllers/containerController');
-const authMiddleware = require('../middlewares/authMiddleware')
+const discussionController = require('../controllers/discussionController');
+// const authMiddleware = require('../middlewares/authMiddleware')
 
-router.get('/', authMiddleware, containerController.getContainers)
-router.post('/', authMiddleware, containerController.createContainer)
+router.get('/:discussionId', discussionController.getDiscussionById)
+router.post('/', discussionController.createDiscussion)
 // router.delete('/', authMiddleware, containerController.deleteContainers)
 // router.get('/:containerId', authMiddleware, containerController.getContainerById)
 // router.put('/:containerId', authMiddleware, containerController.updateContainerById)

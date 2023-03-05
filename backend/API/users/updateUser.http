@@ -1,7 +1,0 @@
-PUT  http://localhost:5000/api/users/63ecb98c63ad99f2c56cd9db HTTP/1.1
-content-type: application/json
-
-{
-    "user": "ali",
-    "password": "2023-02-13T12:51:26.354000"
-}

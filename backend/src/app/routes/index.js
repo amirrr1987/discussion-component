@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
 
-const containerRoute = require('./containerRoute');
+const discussionRoute = require('./discussionRoute');
 const userRoute = require('./userRoute');
 
-router.use("discussion", discussionRoute);
+router.use("/api/discussions", discussionRoute);
 router.use("/api/auth", userRoute);
 
 router.use((req, res) => {

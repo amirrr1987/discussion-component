@@ -1,6 +1,6 @@
 {
-  "dbAddress": "mongodb://127.0.0.1:27017/Portfolio",
-  "myTokenSecretKey": "Portfolio",
+  "dbAddress": "mongodb://127.0.0.1:27017/discussion",
+  "myTokenSecretKey": "discussion",
   "salt": 10,
   "headerTokenName": "Authorization",
   "serverPort": 5000

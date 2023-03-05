@@ -1,2 +1,0 @@
-Get  http://localhost:5000/api/users/63ecbc84f26959d0f291ae3e HTTP/1.1
-content-type: application/json
