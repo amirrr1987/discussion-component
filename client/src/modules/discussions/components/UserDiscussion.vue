@@ -1,57 +1,58 @@
 <template>
   <div :class="[`${prefixCls}s`]">
     <div
-      class="grid grid-cols-[max-content_1fr] grid-rows-2 gap-8 p-4 border-b"
+      class="grid grid-cols-[max-content_1fr] grid-rows-2 gap-x-8 gap-y-4 p-4 border-b"
     >
       <UserAvatar :user="props.comment.user" class="row-span-2" />
       <div class="">{{ props.comment.text }}</div>
       <div class="flex gap-x-2">
-        <button
-          class="rounded-full w-8 h-8 flex justify-center items-center"
-          :class="
-            props.comment.isLike
-              ? 'bg-blue text-light'
-              : 'border border-solid border-blue text-blue'
-          "
-          @click="likeHandler({ commentId: props.comment._id })"
-        >
-          <Icon icon="uiw:like-o" />
-        </button>
-        <span>{{ props.comment.likes }}</span>
-        <button class="w-20 h-8 text-blue" @click="inputVisibilityHandler">
-          reply
-        </button>
-      </div>
-    </div>
-    <div class="">
-      <template v-for="(item, index) in props.comment.replies" :key="index">
-        <div class="flex gap-x-4 mb-4">
-          <UserAvatar :user="item.user" />
-          <div class="flex-1">
-            <div class="mb-4">{{ item.text }}</div>
-            <button
-              class="rounded w-20 h-8"
-              :class="
-                item.isLike
-                  ? 'bg-blue text-light'
-                  : 'border border-solid border-blue text-blue'
-              "
-              @click="repliesLikeHandler({ itemIndex: item })"
-            >
-              {{ item.likes }}
-            </button>
-          </div>
+          <button
+            class="rounded-full w-8 h-8 flex justify-center items-center"
+            :class="
+              props.comment.isLike
+                ? 'bg-blue text-light'
+                : 'border border-solid border-blue text-blue'
+            "
+            @click="likeHandler({ commentId: props.comment._id })"
+          >
+            <Icon icon="uiw:like-o" />
+          </button>
+          <span>{{ props.comment.likes }}</span>
+          <button class="w-20 h-8 text-blue" @click="inputVisibilityHandler">
+            reply
+          </button>
         </div>
-      </template>
-      <input
-        type="text"
-        ref="replyInput"
-        @keyup.enter="addToRepliesHandler"
-        v-model="tempReply"
-        v-if="inputVisibility"
-        class="w-full border outline-none py-1 px-2 text-sm text-gray"
-      />
+        <div class="col-start-2">
+          <template v-for="(item, index) in props.comment.replies" :key="index">
+            <div class="flex gap-x-4 mb-4">
+              <UserAvatar :user="item.user" />
+              <div class="flex-1">
+                <div class="mb-4">{{ item.text }}</div>
+                <button
+                  class="rounded w-20 h-8"
+                  :class="
+                    item.isLike
+                      ? 'bg-blue text-light'
+                      : 'border border-solid border-blue text-blue'
+                  "
+                  @click="repliesLikeHandler({ itemIndex: item })"
+                >
+                  {{ item.likes }}
+                </button>
+              </div>
+            </div>
+          </template>
+          <input
+            type="text"
+            ref="replyInput"
+            @keyup.enter="addToRepliesHandler"
+            v-model="tempReply"
+            v-if="inputVisibility"
+            class="w-full border outline-none py-1 px-2 text-sm text-gray"
+          />
+        </div>
     </div>
+
     <!-- 
     <div class="">
       <div class="">
@@ -141,12 +142,15 @@ const inputVisibility = ref(false);
 const replyInput = ref();
 const inputVisibilityHandler = () => {
   inputVisibility.value = !inputVisibility.value;
-  if (inputVisibility.value) {
-    replyInput.value;
-  }
+  // if (inputVisibility.value) {
+  //   replyInput.value;
+  // }
 };
 const tempReply = ref("");
 const addToRepliesHandler = () => {
+
+  console.log('click',tempReply.value);
+  
   let obj = {
     user: {
       _id: commentStore.state.user._id,
@@ -158,7 +162,7 @@ const addToRepliesHandler = () => {
     likes: 0,
     isLike: false,
   };
-  // props.comment._id
+  props.comment._id
   commentStore.updateCommentStore({
     commentId: props.comment._id,
     obj: { replies: [obj] },

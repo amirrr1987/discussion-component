@@ -1,6 +1,6 @@
 {
-  "dbAddress": "mongodb://127.0.0.1:27017/comment",
-  "myTokenSecretKey": "comment",
+  "dbAddress": "mongodb://127.0.0.1:27017/social",
+  "myTokenSecretKey": "social",
   "salt":  10,
   "headerTokenName": "Authorization",
   "serverPort": 5000

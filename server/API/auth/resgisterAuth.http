@@ -2,7 +2,8 @@ POST  http://localhost:5000/api/auth/register HTTP/1.1
 content-type: application/json
 
 {
-    "name": "Amir Maghami",
+    "fName": "Amir",
+    "lName": "Maghami",
     "phone": "09198881400",
     "password": "09198881400",
     "confirmPassword": "09198881400"
